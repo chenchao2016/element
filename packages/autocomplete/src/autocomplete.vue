@@ -20,6 +20,7 @@
         <slot name="append"></slot>
       </template>
     </el-input>
+    <el-button v-if='triggerOnButton'  type="default" :class='triggerButtonClass' @click.native='handleclickOfmine' >{{triggerButton}}</el-button>
     <el-autocomplete-suggestions
       :props="props"
       :class="[popperClass ? popperClass : '']"
@@ -31,6 +32,7 @@
 </template>
 <script>
   import ElInput from 'element-ui/packages/input';
+  import ElButton from 'element-ui/packages/button';
   import Clickoutside from 'element-ui/src/utils/clickoutside';
   import ElAutocompleteSuggestions from './autocomplete-suggestions.vue';
   import Emitter from 'element-ui/src/mixins/emitter';
@@ -44,6 +46,7 @@
 
     components: {
       ElInput,
+      ElButton,
       ElAutocompleteSuggestions
     },
 
@@ -71,6 +74,15 @@
         type: Boolean,
         default: true
       },
+      triggerOnButton:{
+        type: Boolean,
+        default: false
+      },
+      triggerButton:{
+        type: String,
+        default: "搜索"
+      },
+      triggerButtonClass:String,
       customItem: String,
       icon: String,
       onIconClick: Function
@@ -80,6 +92,8 @@
         activated: false,
         isOnComposition: false,
         suggestions: [],
+
+        showSuggestion:false,
         loading: false,
         highlightedIndex: -1
       };
@@ -93,13 +107,21 @@
     },
     watch: {
       suggestionVisible(val) {
+        
         this.broadcast('ElAutocompleteSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
       }
     },
     methods: {
+  
       getData(queryString) {
+
+        if(this.triggerOnButton && !queryString) return;
+
+        this.showSuggestion = true;
+        console.log(queryString)
         this.loading = true;
         this.fetchSuggestions(queryString, (suggestions) => {
+          console.log(suggestions)
           this.loading = false;
           if (Array.isArray(suggestions)) {
             this.suggestions = suggestions;
@@ -118,20 +140,28 @@
       },
       handleChange(value) {
         this.$emit('input', value);
-        if (this.isOnComposition || (!this.triggerOnFocus && !value)) {
+        if (this.isOnComposition || (!this.triggerOnFocus && !value) || this.triggerOnButton) {
           this.suggestions = [];
           return;
         }
-        this.getData(value);
+        console.log('listen input !');
+         this.getData(value);
       },
       handleFocus() {
         this.activated = true;
-        if (this.triggerOnFocus) {
+        console.log('focus')
+        if (this.triggerOnFocus&&!this.triggerOnButton) {
           this.getData(this.value);
+          console.log('enter')
         }
+      },
+      handleclickOfmine(){
+        this.getData(this.value);
+        this.$refs.input.$refs.input.focus();
       },
       close(e) {
         this.activated = false;
+        if(this.triggerOnButton) this.suggestions = [];
       },
       handleKeyEnter(e) {
         if (this.suggestionVisible && this.highlightedIndex >= 0 && this.highlightedIndex < this.suggestions.length) {

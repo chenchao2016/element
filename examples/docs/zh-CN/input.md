@@ -414,7 +414,7 @@ export default {
       class="inline-input"
       v-model="state1"
       :fetch-suggestions="querySearch"
-      placeholder="请输入内容"
+      placeholder="请输入内容999988989"
       @select="handleSelect"
     ></el-autocomplete>
   </el-col>
@@ -426,6 +426,8 @@ export default {
       :fetch-suggestions="querySearch"
       placeholder="请输入内容"
       :trigger-on-focus="false"
+      :trigger-on-button="true" 
+       trigger-button="查询" trigger-button-class="mybutton" 
       @select="handleSelect"
     ></el-autocomplete>
   </el-col>

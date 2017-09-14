@@ -44,7 +44,6 @@
 
     methods: {
       handleClick(evt) {
-        alert('1111')
         this.$emit('click', evt);
       },
       handleInnerClick(evt) {

@@ -74,15 +74,15 @@
         type: Boolean,
         default: true
       },
-      triggerOnButton:{
+      triggerOnButton: {
         type: Boolean,
         default: false
       },
-      triggerButton:{
+      triggerButton: {
         type: String,
-        default: "搜索"
+        default: '搜索'
       },
-      triggerButtonClass:String,
+      triggerButtonClass: String,
       customItem: String,
       icon: String,
       onIconClick: Function
@@ -93,7 +93,7 @@
         isOnComposition: false,
         suggestions: [],
 
-        showSuggestion:false,
+        showSuggestion: false,
         loading: false,
         highlightedIndex: -1
       };
@@ -115,13 +115,11 @@
   
       getData(queryString) {
 
-        if(this.triggerOnButton && !queryString) return;
+        if (this.triggerOnButton && !queryString) return;
 
         this.showSuggestion = true;
-        console.log(queryString)
         this.loading = true;
         this.fetchSuggestions(queryString, (suggestions) => {
-          console.log(suggestions)
           this.loading = false;
           if (Array.isArray(suggestions)) {
             this.suggestions = suggestions;
@@ -149,19 +147,17 @@
       },
       handleFocus() {
         this.activated = true;
-        console.log('focus')
-        if (this.triggerOnFocus&&!this.triggerOnButton) {
+        if (this.triggerOnFocus && !this.triggerOnButton) {
           this.getData(this.value);
-          console.log('enter')
         }
       },
-      handleclickOfmine(){
+      handleclickOfmine() {
         this.getData(this.value);
         this.$refs.input.$refs.input.focus();
       },
       close(e) {
         this.activated = false;
-        if(this.triggerOnButton) this.suggestions = [];
+        if (this.triggerOnButton) this.suggestions = [];
       },
       handleKeyEnter(e) {
         if (this.suggestionVisible && this.highlightedIndex >= 0 && this.highlightedIndex < this.suggestions.length) {

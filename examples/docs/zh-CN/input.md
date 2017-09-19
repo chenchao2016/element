@@ -517,6 +517,22 @@ export default {
 ```
 :::
 
+### 通过按钮触发输入建议
+
+根据输入内容提供对应的输入建议
+
+::: demo 可以通过按钮触发远程查询，并通过上下键选中下拉列表中的某个值。
+```html
+<el-input-button
+  type="default">
+  hello
+</el-input-button>
+
+<script>
+```
+:::
+
+
 ### 自定义模板
 
 可自定义输入建议的显示

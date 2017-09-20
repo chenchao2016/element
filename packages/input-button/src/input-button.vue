@@ -101,9 +101,6 @@
         computed: {
             suggestionVisible() {
                 console.log('change computed!');
-                console.log('change computed!'+this.suggestions);
-                console.log('change computed!'+this.loading);
-                console.log('change computed!'+this.activated);
                 const suggestions = this.suggestions;
                 let isValidData = Array.isArray(suggestions) && suggestions.length > 0;
                 return (isValidData || this.loading) && this.activated;

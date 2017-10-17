@@ -108,7 +108,7 @@
         },
         watch: {
             suggestionVisible(val) {
-                console.log('change watch!'+val);
+                console.log('change watch!', val);
                 this.broadcast('ElInputbuttonSuggestions', 'visible', [val, this.$refs.input.$refs.input.offsetWidth]);
             }
         },
